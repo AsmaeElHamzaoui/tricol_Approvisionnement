@@ -1,0 +1,5 @@
+databasechangeLog:
+  - inlcude:
+      file: db/changelog/01-create-fournisseur.yaml
+  - include:
+      file: db/changelog/01-create-produit.yaml
