@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
-      id: 1
-      author: asmae
+      id: 01-create-fournisseur
+      author: Asmae
       changes:
         - createTable:
             tableName: fournisseur
