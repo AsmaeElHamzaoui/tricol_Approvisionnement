@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "fournisseurs")
+@Table(name = "fournisseur")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -29,6 +29,6 @@ public class Fournisseur {
 
     private String ville;
 
-    @Column(name = "ice", unique = true)
+    @Column(unique = true)
     private String ICE;
 }
