@@ -52,5 +52,8 @@ public class CommandeService {
         return commandeMapper.toDTO(saved);
     }
 
-
+   //delete
+    public void deleteCommande(int id){
+        commandeRepository.deleteById(id);
+    }
 }
