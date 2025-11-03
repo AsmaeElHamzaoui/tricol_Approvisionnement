@@ -58,5 +58,8 @@ public class CommandeLigneService {
 
     }
 
-
+    //delete
+    public void deleteCommandeLigne(int id){
+        commandeRepository.deleteById(id);
+    }
 }
