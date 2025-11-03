@@ -9,4 +9,5 @@ databaseChangeLog:
               - column:
                   name: coutMoyenUnitaire
                   type: DECIMAL(10,2)
-                  remarks: "Cout moyen pondére"
+                  defaultValueNumeric: 0.00
+                  remarks: "Cout moyen pondéré"
