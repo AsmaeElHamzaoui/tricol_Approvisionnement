@@ -1,0 +1,45 @@
+databaseChangeLog:
+  - changeSet:
+      id: 01-create-commandes-lignes
+      author: Asmae
+      changes:
+        - createTable:
+            tableName: commandes_lignes
+            columns:
+              - column:
+                  name: id
+                  type: INT
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: id_produit
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: id_commande
+                  type: INT
+                  constraints:
+                    nullable: false
+              - column:
+                  name: quantite
+                  type: INT
+                  defaultValueNumeric: 1
+              - column:
+                  name: prixAchat
+                  type: DECIMAL(10,2)
+                  defaultValueNumeric: 0.00
+        - addForeignKeyConstraint:
+            baseTableName: commandes_lignes
+            baseColumnNames: id_commande
+            referencedTableName: commandes
+            referencedColumnNames: id
+            constraintName: fk_commandes_lignes_commandes
+        - addForeignKeyConstraint:
+            baseTableName: commandes_lignes
+            baseColumnNames: id_produit
+            referencedTableName: produit
+            referencedColumnNames: id
+            constraintName: fk_commandes_lignes_produit
