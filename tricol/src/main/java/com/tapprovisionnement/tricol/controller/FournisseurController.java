@@ -3,6 +3,7 @@ package com.tapprovisionnement.tricol.controller;
 import com.tapprovisionnement.tricol.dto.FournisseurDTO;
 import com.tapprovisionnement.tricol.service.FournisseurService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,9 @@ public class FournisseurController {
 
     // GET /api/fournisseurs
     @GetMapping
-    public ResponseEntity<List<FournisseurDTO>> getAllFournisseurs() {
-        return ResponseEntity.ok(fournisseurService.getAllFournisseurs());
+    public ResponseEntity<Page<FournisseurDTO>> getAllFournisseurs(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "0") int nbrElement) {
+
+        return ResponseEntity.ok(fournisseurService.getAllFournisseurs(page,nbrElement));
     }
 
     // GET /api/fournisseurs/{id}

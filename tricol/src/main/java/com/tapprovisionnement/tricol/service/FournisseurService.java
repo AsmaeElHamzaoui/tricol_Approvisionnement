@@ -5,10 +5,11 @@ import com.tapprovisionnement.tricol.mapper.FournisseurMapper;
 import com.tapprovisionnement.tricol.model.Fournisseur;
 import com.tapprovisionnement.tricol.repository.FournisseurRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -17,11 +18,10 @@ public class FournisseurService {
     private final FournisseurRepository fournisseurRepository;
     private final FournisseurMapper fournisseurMapper;
 
-    public List<FournisseurDTO> getAllFournisseurs() {
-        return fournisseurRepository.findAll()
-                .stream()
-                .map(fournisseurMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<FournisseurDTO> getAllFournisseurs(int page,int nbrElement) {
+        Pageable pageable= PageRequest.of(page,nbrElement, Sort.by("id").ascending());
+        Page<Fournisseur> fournisseurs=fournisseurRepository.findAll(pageable);
+        return fournisseurs.map(fournisseurMapper::toDTO);
     }
 
     public FournisseurDTO getFournisseurById(int id) {
