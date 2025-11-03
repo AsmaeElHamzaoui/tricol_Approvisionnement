@@ -3,3 +3,5 @@ databaseChangeLog:
       file: db/changelog/01-create-fournisseur.yaml
   - include:
       file: db/changelog/01-create-produit.yaml
+  - include:
+      file: db/changelog/02-addColumn-produit.yaml
