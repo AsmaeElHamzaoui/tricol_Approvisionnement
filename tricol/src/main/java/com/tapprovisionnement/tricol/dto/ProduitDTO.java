@@ -13,4 +13,5 @@ public class ProduitDTO {
     private double prixUnitaire;
     private String categorie;
     private int stockActuel;
+    private double coutMoyenUnitaire;
 }
