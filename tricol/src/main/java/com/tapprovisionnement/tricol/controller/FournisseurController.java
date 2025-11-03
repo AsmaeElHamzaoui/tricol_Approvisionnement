@@ -1,4 +1,51 @@
 package com.tapprovisionnement.tricol.controller;
 
+import com.tapprovisionnement.tricol.dto.FournisseurDTO;
+import com.tapprovisionnement.tricol.service.FournisseurService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/fournisseurs")
+@RequiredArgsConstructor
 public class FournisseurController {
+
+    private final FournisseurService fournisseurService;
+
+    // GET /api/fournisseurs
+    @GetMapping
+    public ResponseEntity<List<FournisseurDTO>> getAllFournisseurs() {
+        return ResponseEntity.ok(fournisseurService.getAllFournisseurs());
+    }
+
+    // GET /api/fournisseurs/{id}
+    @GetMapping("/{id}")
+    public ResponseEntity<FournisseurDTO> getFournisseurById(@PathVariable int id) {
+        return ResponseEntity.ok(fournisseurService.getFournisseurById(id));
+    }
+
+    // POST /api/fournisseurs
+    @PostMapping
+    public ResponseEntity<FournisseurDTO> createFournisseur(@RequestBody FournisseurDTO fournisseurDTO) {
+        FournisseurDTO created = fournisseurService.createFournisseur(fournisseurDTO);
+        return new ResponseEntity<>(created, HttpStatus.CREATED);
+    }
+
+    // PUT /api/fournisseurs/{id}
+    @PutMapping("/{id}")
+    public ResponseEntity<FournisseurDTO> updateFournisseur(@PathVariable int id, @RequestBody FournisseurDTO fournisseurDTO) {
+        FournisseurDTO updated = fournisseurService.updateFournisseur(id, fournisseurDTO);
+        return ResponseEntity.ok(updated);
+    }
+
+    // DELETE /api/fournisseurs/{id}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteFournisseur(@PathVariable int id) {
+        fournisseurService.deleteFournisseur(id);
+        return ResponseEntity.noContent().build();
+    }
 }
