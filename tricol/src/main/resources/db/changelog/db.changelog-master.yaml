@@ -5,3 +5,9 @@ databaseChangeLog:
       file: db/changelog/01-create-produit.yaml
   - include:
       file: db/changelog/02-addColumn-produit.yaml
+  - include:
+      file: db/changelog/01-create-commandes.yaml
+  - include:
+      file: db/changelog/01-create-commandes_lignes.yaml
+  - include:
+      file: db/changelog/01-create-mouvementsStock.yaml
