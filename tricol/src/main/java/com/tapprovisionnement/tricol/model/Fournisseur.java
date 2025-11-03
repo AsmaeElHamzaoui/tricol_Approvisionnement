@@ -3,6 +3,8 @@ package com.tapprovisionnement.tricol.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "fournisseur")
 @Getter
@@ -31,4 +33,7 @@ public class Fournisseur {
 
     @Column(unique = true)
     private String ICE;
+
+     @OneToMany(mappedBy = "fournisseur",cascade = CascadeType.ALL, orphanRemoval = true)
+     private List<Commande> commandes;
 }
