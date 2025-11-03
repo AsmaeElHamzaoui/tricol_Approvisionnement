@@ -1,0 +1,12 @@
+databaseChangeLog:
+  - changeSet:
+      id: 02-add-coutMoyenUnitaire-produit
+      author: Asmae
+      changes:
+        - addColumn:
+            tableName: produit
+            columns:
+              - column:
+                  name: coutMoyenUnitaire
+                  type: DECIMAL(10,2)
+                  remarks: "Cout moyen pondére"
