@@ -26,4 +26,6 @@ public class Commande {
     @ManyToOne
     @JoinColumn(name="id_fournisseur",nullable = false)
     private Fournisseur fournisseur;
+
+
 }
