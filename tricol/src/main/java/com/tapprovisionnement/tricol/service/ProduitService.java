@@ -5,6 +5,10 @@ import com.tapprovisionnement.tricol.mapper.ProduitMapper;
 import com.tapprovisionnement.tricol.model.Produit;
 import com.tapprovisionnement.tricol.repository.ProduitRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,11 +21,10 @@ public class ProduitService {
     private final ProduitRepository produitRepository;
     private final ProduitMapper produitMapper;
 
-    public List<ProduitDTO> getAllProduits() {
-        return produitRepository.findAll()
-                .stream()
-                .map(produitMapper::toDTO)
-                .collect(Collectors.toList());
+    public Page<ProduitDTO> getAllProduits(int page,int nbrElement) {
+        Pageable pageable= PageRequest.of(page,nbrElement, Sort.by("id").ascending());
+        Page<Produit> produits=produitRepository.findAll(pageable);
+        return produits.map(produitMapper::toDTO);
     }
 
     public ProduitDTO getProduitById(int id) {

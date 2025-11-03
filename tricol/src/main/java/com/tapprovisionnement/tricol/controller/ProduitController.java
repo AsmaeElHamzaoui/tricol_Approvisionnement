@@ -3,6 +3,7 @@ package com.tapprovisionnement.tricol.controller;
 import com.tapprovisionnement.tricol.dto.ProduitDTO;
 import com.tapprovisionnement.tricol.service.ProduitService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +19,8 @@ public class ProduitController {
 
     // GET /api/produits
     @GetMapping
-    public ResponseEntity<List<ProduitDTO>> getAllProduits() {
-        return ResponseEntity.ok(produitService.getAllProduits());
+    public ResponseEntity<Page<ProduitDTO>> getAllProduits(@RequestParam(defaultValue = "0") int page,@RequestParam(defaultValue = "0") int nbrElement) {
+        return ResponseEntity.ok(produitService.getAllProduits(page, nbrElement));
     }
 
     // GET /api/produits/{id}
