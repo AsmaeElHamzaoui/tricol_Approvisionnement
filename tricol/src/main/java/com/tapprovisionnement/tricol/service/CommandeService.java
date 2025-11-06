@@ -51,6 +51,10 @@ public class CommandeService {
         commande.setFournisseur(fournisseur);
 
        Commande saved=commandeRepository.save(commande);
+
+        // Traiter livraison si le statut est LIVREE dès la création
+        traiterLivraisonCommande(saved);
+
        return commandeMapper.toDTO(saved);
     }
 
@@ -63,6 +67,10 @@ public class CommandeService {
         commande.setMontantTotal(commandeDTO.getMontantTotal());
         commande.setFournisseur(fournisseur);
         Commande saved=commandeRepository.save(commande);
+
+        // Traiter livraison si le statut devient LIVREE
+        traiterLivraisonCommande(saved);
+
         return commandeMapper.toDTO(saved);
     }
 
