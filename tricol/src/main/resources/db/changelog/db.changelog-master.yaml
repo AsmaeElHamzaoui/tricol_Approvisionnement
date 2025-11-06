@@ -11,3 +11,11 @@ databaseChangeLog:
       file: db/changelog/01-create-commandes_lignes.yaml
   - include:
       file: db/changelog/01-create-mouvementsStock.yaml
+  - include:
+      file: db/changelog/03-rename-coutMoyenUnitaire-column.yaml
+  - include:
+      file: db/changelog/03-rename-dateCommande-column.yaml
+  - include:
+      file: db/changelog/03-rename-montantTotal-column.yaml
+  - include:
+      file: db/changelog/03-rename-prixAchat-column.yaml
