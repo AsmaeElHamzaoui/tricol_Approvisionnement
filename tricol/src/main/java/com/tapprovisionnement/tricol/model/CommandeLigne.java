@@ -14,7 +14,7 @@ public class CommandeLigne {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private int id;
 
     // Relation ManyToOne avec Produit
     @ManyToOne
@@ -26,5 +26,7 @@ public class CommandeLigne {
     @JoinColumn(name = "id_commande", nullable = false)
     private Commande commande;
     private int quantite;
+
+    @Column(name = "prix_achat")
     private double prixAchat;
 }
