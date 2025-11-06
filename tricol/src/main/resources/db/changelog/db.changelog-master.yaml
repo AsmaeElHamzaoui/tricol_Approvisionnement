@@ -19,3 +19,5 @@ databaseChangeLog:
       file: db/changelog/03-rename-montantTotal-column.yaml
   - include:
       file: db/changelog/03-rename-prixAchat-column.yaml
+  - include:
+      file: db/changelog/02-update-mouvementStock-table.yaml
