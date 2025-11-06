@@ -35,7 +35,14 @@ public class CommandeService {
 
     //save
     public CommandeDTO createCommande(CommandeDTO commandeDTO){
+        // Récupérer le fournisseur
+        Fournisseur fournisseur = fournisseurRepository
+                .findById(commandeDTO.getFournisseurId())
+                .orElseThrow(() -> new RuntimeException("Fournisseur introuvable"));
        Commande commande=commandeMapper.toEntity(commandeDTO);
+       // Associer le fournisseur
+        commande.setFournisseur(fournisseur);
+
        Commande saved=commandeRepository.save(commande);
        return commandeMapper.toDTO(saved);
     }
@@ -44,7 +51,7 @@ public class CommandeService {
     public CommandeDTO updateCommande(int id,CommandeDTO commandeDTO){
         Commande commande=commandeRepository.findById(id).orElseThrow(()->new RuntimeException("Commande not found"));
         Fournisseur fournisseur=fournisseurRepository.findById(commandeDTO.getFournisseurId()).orElseThrow(()->new RuntimeException("fournisseur not found"));
-        commande.setDate(commandeDTO.getDate());
+        commande.setDateCommande(commandeDTO.getDateCommande());
         commande.setStatut(commandeDTO.getStatut());
         commande.setMontantTotal(commandeDTO.getMontantTotal());
         commande.setFournisseur(fournisseur);
