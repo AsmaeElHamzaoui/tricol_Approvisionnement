@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 03-rename-prixAchat-column
+      author: Asmae
+      changes:
+        - renameColumn:
+            tableName: commandes_lignes
+            oldColumnName: prixAchat
+            newColumnName: prix_achat
+            columnDataType: DECIMAL(10,2)
