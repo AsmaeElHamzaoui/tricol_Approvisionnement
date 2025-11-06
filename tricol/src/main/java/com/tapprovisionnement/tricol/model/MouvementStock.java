@@ -26,8 +26,8 @@ public class MouvementStock {
 
     private int quantite;
 
-    // relation avec ligne commande
+    // relation avec commande
     @ManyToOne
-    @JoinColumn(name = "id_ligne_commande", nullable = false)
-    private CommandeLigne ligneCommande;
+    @JoinColumn(name = "id_commande", nullable = false)
+    private Commande commande;
 }
