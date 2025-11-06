@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 03-rename-montantTotal-column
+      author: Asmae
+      changes:
+        - renameColumn:
+            tableName: commandes
+            oldColumnName: montantTotal
+            newColumnName: montant_total
+            columnDataType: timestamp
