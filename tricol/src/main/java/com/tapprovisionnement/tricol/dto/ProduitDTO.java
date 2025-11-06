@@ -1,5 +1,6 @@
 package com.tapprovisionnement.tricol.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Data
@@ -13,5 +14,7 @@ public class ProduitDTO {
     private double prixUnitaire;
     private String categorie;
     private int stockActuel;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private double coutMoyenUnitaire;
 }
