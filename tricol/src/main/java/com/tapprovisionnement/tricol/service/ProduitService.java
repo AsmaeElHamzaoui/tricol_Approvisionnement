@@ -34,10 +34,37 @@ public class ProduitService {
     }
 
     public ProduitDTO createProduit(ProduitDTO produitDTO) {
-        Produit produit = produitMapper.toEntity(produitDTO);
+
+        // vérifier si produit existe déjà
+        Produit existing = produitRepository.findByNom(produitDTO.getNom());
+
+        Produit produit;
+
+        if (existing != null) {
+            // => deuxième entrée
+            double newCump = calculerCUMP(
+                    existing.getCoutMoyenUnitaire(),
+                    existing.getStockActuel(),
+                    produitDTO.getPrixUnitaire(),
+                    produitDTO.getStockActuel()
+            );
+
+            existing.setCoutMoyenUnitaire(newCump);
+            existing.setStockActuel(existing.getStockActuel() + produitDTO.getStockActuel());
+            existing.setPrixUnitaire(produitDTO.getPrixUnitaire()); // tu peux stocker le dernier
+
+            produit = existing;
+
+        } else {
+            // => création produit
+            produit = produitMapper.toEntity(produitDTO);
+            produit.setCoutMoyenUnitaire(produit.getPrixUnitaire()); // CUMP = prix
+        }
+
         Produit saved = produitRepository.save(produit);
         return produitMapper.toDTO(saved);
     }
+
 
     public ProduitDTO updateProduit(int id, ProduitDTO produitDTO) {
         Produit existing = produitRepository.findById(id)
@@ -57,4 +84,16 @@ public class ProduitService {
     public void deleteProduit(int id) {
         produitRepository.deleteById(id);
     }
+
+    //Méthode pour le calucl de cump
+    private double calculerCUMP(double ancienCUMP, int ancienStock,
+                                double nouveauPrix, int nouvelleQuantite) {
+
+        if (ancienStock == 0) return nouveauPrix;
+
+        return ((ancienStock * ancienCUMP) + (nouvelleQuantite * nouveauPrix))
+                / (ancienStock + nouvelleQuantite);
+    }
+
+
 }

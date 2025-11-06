@@ -52,8 +52,15 @@ public class CommandeLigneService {
         ligne.setProduit(produit);
         ligne.setCommande(commande);
 
+        // le prixAchat = CUMP du produit
+        ligne.setPrixAchat(produit.getCoutMoyenUnitaire());
+
         // Sauvegarder
         CommandeLigne saved = commandeLigneRepository.save(ligne);
+
+        // après avoir ajouté la ligne, recalculer le montant total de la commande
+        recalculerMontantTotalCommande(commande);
+
         return commandeLigneMapper.toDTO(saved);
     }
 
@@ -69,7 +76,6 @@ public class CommandeLigneService {
 
         // Mettre à jour via mapper ou directement
         ligne.setQuantite(dto.getQuantite());
-        ligne.setPrixAchat(dto.getPrixAchat());
         ligne.setProduit(produit);
         ligne.setCommande(commande);
 
@@ -81,5 +87,18 @@ public class CommandeLigneService {
     public void deleteCommandeLigne(int id){
         commandeLigneRepository.deleteById(id);
     }
+
+
+    //la méthode pour recalculer le total de la commande
+    private void recalculerMontantTotalCommande(Commande commande) {
+
+        double total = commandeLigneRepository.findByCommande(commande).stream()
+                .mapToDouble(l -> l.getPrixAchat() * l.getQuantite())
+                .sum();
+
+        commande.setMontantTotal(total);
+        commandeRepository.save(commande);
+    }
+
 }
 

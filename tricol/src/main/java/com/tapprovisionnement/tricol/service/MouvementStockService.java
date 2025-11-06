@@ -2,13 +2,16 @@ package com.tapprovisionnement.tricol.service;
 
 import com.tapprovisionnement.tricol.dto.MouvementStockDTO;
 import com.tapprovisionnement.tricol.mapper.MouvementStockMapper;
+import com.tapprovisionnement.tricol.model.Commande;
 import com.tapprovisionnement.tricol.model.MouvementStock;
-import com.tapprovisionnement.tricol.model.CommandeLigne;
-import com.tapprovisionnement.tricol.repository.MouvementStockRepository;
+import com.tapprovisionnement.tricol.repository.CommandeRepository;
 import com.tapprovisionnement.tricol.repository.CommandeLigneRepository;
+import com.tapprovisionnement.tricol.repository.MouvementStockRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
 
 @Service
 @RequiredArgsConstructor
@@ -16,52 +19,79 @@ public class MouvementStockService {
 
     private final MouvementStockRepository mouvementStockRepository;
     private final MouvementStockMapper mouvementStockMapper;
+    private final CommandeRepository commandeRepository;
     private final CommandeLigneRepository commandeLigneRepository;
 
-    //getAll
+    // GET all
     public Page<MouvementStockDTO> getAll(int page, int size){
         Pageable pageable = PageRequest.of(page, size, Sort.by("id").ascending());
         Page<MouvementStock> mouvements = mouvementStockRepository.findAll(pageable);
         return mouvements.map(mouvementStockMapper::toDTO);
     }
 
-    //getById
+    // GET by ID
     public MouvementStockDTO getById(int id){
         MouvementStock mouvementStock = mouvementStockRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("mouvementStock not found"));
         return mouvementStockMapper.toDTO(mouvementStock);
     }
 
-    //create
+    // CREATE
     public MouvementStockDTO create(MouvementStockDTO dto){
+
+        // Récupérer la commande
+        Commande commande = commandeRepository.findById(dto.getCommandeId())
+                .orElseThrow(() -> new RuntimeException("Commande introuvable"));
+
+        // Créer l'entité depuis le DTO via mapper
         MouvementStock mouvement = mouvementStockMapper.toEntity(dto);
 
-        CommandeLigne ligne = commandeLigneRepository.findById(dto.getLigneCommandeId())
-                .orElseThrow(() -> new RuntimeException("ligne commande not found"));
-        mouvement.setLigneCommande(ligne);
+        // Associer la commande
+        mouvement.setCommande(commande);
 
+        // Calculer la quantité totale de tous les produits de cette commande
+        int totalQuantite = commandeLigneRepository.findByCommande(commande)
+                .stream()
+                .mapToInt(ligne -> ligne.getQuantite())
+                .sum();
+        mouvement.setQuantite(totalQuantite);
+
+        // Si date non renseignée, utiliser date actuelle
+        if (mouvement.getDateMouvement() == null) {
+            mouvement.setDateMouvement(LocalDate.now());
+        }
+
+        // Sauvegarder
         MouvementStock saved = mouvementStockRepository.save(mouvement);
         return mouvementStockMapper.toDTO(saved);
     }
 
-    //update
+    // UPDATE
     public MouvementStockDTO update(int id, MouvementStockDTO dto){
         MouvementStock mouvement = mouvementStockRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("mouvementStock not found"));
 
-        CommandeLigne ligne = commandeLigneRepository.findById(dto.getLigneCommandeId())
-                .orElseThrow(() -> new RuntimeException("ligne commande not found"));
+        Commande commande = commandeRepository.findById(dto.getCommandeId())
+                .orElseThrow(() -> new RuntimeException("Commande introuvable"));
 
-        mouvement.setDateMouvement(java.time.LocalDate.parse(dto.getDateMouvement()));
+        // Mettre à jour depuis le DTO (mapper peut être utilisé si nécessaire)
         mouvement.setTypeMouvement(dto.getTypeMouvement());
-        mouvement.setQuantite(dto.getQuantite());
-        mouvement.setLigneCommande(ligne);
+        mouvement.setDateMouvement(dto.getDateMouvement() != null ?
+                LocalDate.parse(dto.getDateMouvement()) : mouvement.getDateMouvement());
+        mouvement.setCommande(commande);
+
+        // Recalculer quantité totale
+        int totalQuantite = commandeLigneRepository.findByCommande(commande)
+                .stream()
+                .mapToInt(ligne -> ligne.getQuantite())
+                .sum();
+        mouvement.setQuantite(totalQuantite);
 
         MouvementStock saved = mouvementStockRepository.save(mouvement);
         return mouvementStockMapper.toDTO(saved);
     }
 
-    //delete
+    // DELETE
     public void delete(int id){
         mouvementStockRepository.deleteById(id);
     }
