@@ -1,11 +1,16 @@
 package com.tapprovisionnement.tricol.service;
 
 import com.tapprovisionnement.tricol.dto.CommandeDTO;
+import com.tapprovisionnement.tricol.enums.StatutCommande;
 import com.tapprovisionnement.tricol.mapper.CommandeMapper;
 import com.tapprovisionnement.tricol.model.Commande;
+import com.tapprovisionnement.tricol.model.CommandeLigne;
 import com.tapprovisionnement.tricol.model.Fournisseur;
+import com.tapprovisionnement.tricol.model.Produit;
+import com.tapprovisionnement.tricol.repository.CommandeLigneRepository;
 import com.tapprovisionnement.tricol.repository.CommandeRepository;
 import com.tapprovisionnement.tricol.repository.FournisseurRepository;
+import com.tapprovisionnement.tricol.repository.ProduitRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,6 +24,8 @@ public class CommandeService {
     private final CommandeRepository commandeRepository;
     private final CommandeMapper commandeMapper;
     private final FournisseurRepository fournisseurRepository;
+    private final CommandeLigneRepository commandeLigneRepository;
+    private final ProduitRepository produitRepository;
 
     //getAll commandes with pagination sorting by id ascending
     public Page<CommandeDTO> getAllCommandes(int page,int nbrElement){
@@ -62,5 +69,27 @@ public class CommandeService {
    //delete
     public void deleteCommande(int id){
         commandeRepository.deleteById(id);
+    }
+
+    private void traiterLivraisonCommande(Commande commande) {
+        if (commande.getStatut() != StatutCommande.LIVREE) {
+            return; // Rien à faire si la commande n'est pas LIVREE
+        }
+
+        for (CommandeLigne ligne : commandeLigneRepository.findByCommande(commande)) {
+            Produit produit = ligne.getProduit();
+            int stockRestant = produit.getStockActuel() - ligne.getQuantite();
+
+            if (stockRestant < 0) {
+                throw new RuntimeException(
+                        "Stock insuffisant pour le produit '" + produit.getNom() +
+                                "'. Quantité demandée : " + ligne.getQuantite() +
+                                ", stock actuel : " + produit.getStockActuel()
+                );
+            }
+
+            produit.setStockActuel(stockRestant);
+            produitRepository.save(produit);
+        }
     }
 }
