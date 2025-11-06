@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 03-rename-dateCommande-column
+      author: Asmae
+      changes:
+        - renameColumn:
+            tableName: commandes
+            oldColumnName: dateCommande
+            newColumnName: date_commande
+            columnDataType: timestamp
