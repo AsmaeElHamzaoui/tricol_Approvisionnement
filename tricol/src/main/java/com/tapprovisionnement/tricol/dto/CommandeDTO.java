@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Builder
 public class CommandeDTO {
     private int id;
-    private LocalDateTime date;
+    private LocalDateTime dateCommande;
     private StatutCommande statut;
     private double montantTotal;
     private int fournisseurId;
