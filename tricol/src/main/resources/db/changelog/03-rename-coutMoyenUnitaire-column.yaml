@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 03-rename-coutMoyenUnitaire-column
+      author: Asmae
+      changes:
+        - renameColumn:
+            tableName: produit
+            oldColumnName: coutMoyenUnitaire
+            newColumnName: cout_moyen_unitaire
+            columnDataType: DECIMAL(10,2)
