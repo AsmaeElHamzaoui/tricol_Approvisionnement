@@ -1,5 +1,6 @@
 package com.tapprovisionnement.tricol.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +15,7 @@ public class CommandeLigneDTO {
     private int produitId;
     private int commandeId;
     private int quantite;
+
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private double prixAchat;
 }
