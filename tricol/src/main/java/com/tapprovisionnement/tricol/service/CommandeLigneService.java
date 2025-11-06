@@ -18,48 +18,68 @@ import org.springframework.stereotype.Service;
 @Service
 @RequiredArgsConstructor
 public class CommandeLigneService {
+
     private final CommandeLigneRepository commandeLigneRepository;
     private final CommandeLigneMapper commandeLigneMapper;
     private final ProduitRepository produitRepository;
     private final CommandeRepository commandeRepository;
 
-    //getAll ligneCommandes
-    public Page<CommandeLigneDTO> getAll(int page,int nbrElement){
-        Pageable pageable= PageRequest.of(page,nbrElement, Sort.by("id").ascending());
-        Page<CommandeLigne> commandeLignes=commandeLigneRepository.findAll(pageable);
-        return commandeLignes.map(commandeLigneMapper::toDTO);
+    // GET all
+    public Page<CommandeLigneDTO> getAll(int page, int nbrElement){
+        Pageable pageable = PageRequest.of(page, nbrElement, Sort.by("id").ascending());
+        return commandeLigneRepository.findAll(pageable)
+                .map(commandeLigneMapper::toDTO);
     }
 
-    //get by id
+    // GET by id
     public CommandeLigneDTO getById(int id){
-        CommandeLigne commandeLigne=commandeLigneRepository.findById(id).orElseThrow(()->new RuntimeException("commandeligneNotFound"));
-        return commandeLigneMapper.toDTO(commandeLigne);
+        CommandeLigne ligne = commandeLigneRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("CommandeLigne not found"));
+        return commandeLigneMapper.toDTO(ligne);
     }
 
-    //save
-    public CommandeLigneDTO createCommandeLigne(CommandeLigneDTO commandeLigneDTO){
-        CommandeLigne commandeLigne=commandeLigneMapper.toEntiry(commandeLigneDTO);
-        CommandeLigne commandeLigneSaved=commandeLigneRepository.save(commandeLigne);
-        return commandeLigneMapper.toDTO(commandeLigneSaved);
+    // CREATE (POST) avec mapper
+    public CommandeLigneDTO createCommandeLigne(CommandeLigneDTO dto){
+        // Convertir le DTO en entity via mapper
+        CommandeLigne ligne = commandeLigneMapper.toEntiry(dto);
+
+        // Associer les entités existantes
+        Produit produit = produitRepository.findById(dto.getProduitId())
+                .orElseThrow(() -> new RuntimeException("Produit introuvable"));
+        Commande commande = commandeRepository.findById(dto.getCommandeId())
+                .orElseThrow(() -> new RuntimeException("Commande introuvable"));
+
+        ligne.setProduit(produit);
+        ligne.setCommande(commande);
+
+        // Sauvegarder
+        CommandeLigne saved = commandeLigneRepository.save(ligne);
+        return commandeLigneMapper.toDTO(saved);
     }
 
-    //update
-    public CommandeLigneDTO updateCommandeLigne(int id,CommandeLigneDTO commandeLigneDTO){
-        CommandeLigne commandeLigne=commandeLigneRepository.findById(id).orElseThrow(()->new RuntimeException("commandeLigne not found"));
-        Commande commande=commandeRepository.findById(commandeLigneDTO.getCommandeId()).orElseThrow(()->new RuntimeException("commande not found"));
-        Produit produit=produitRepository.findById(commandeLigneDTO.getProduitId()).orElseThrow(()->new RuntimeException("product not found"));
-        commandeLigne.setProduit(produit);
-        commandeLigne.setCommande(commande);
-        commandeLigne.setQuantite(commandeLigneDTO.getQuantite());
-        commandeLigne.setPrixAchat(commandeLigneDTO.getPrixAchat());
+    // UPDATE (PUT) avec mapper
+    public CommandeLigneDTO updateCommandeLigne(int id, CommandeLigneDTO dto){
+        CommandeLigne ligne = commandeLigneRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("CommandeLigne non trouvée"));
 
-        CommandeLigne commandeLigneSaved=commandeLigneRepository.save(commandeLigne);
-        return commandeLigneMapper.toDTO(commandeLigneSaved);
+        Produit produit = produitRepository.findById(dto.getProduitId())
+                .orElseThrow(() -> new RuntimeException("Produit introuvable"));
+        Commande commande = commandeRepository.findById(dto.getCommandeId())
+                .orElseThrow(() -> new RuntimeException("Commande introuvable"));
 
+        // Mettre à jour via mapper ou directement
+        ligne.setQuantite(dto.getQuantite());
+        ligne.setPrixAchat(dto.getPrixAchat());
+        ligne.setProduit(produit);
+        ligne.setCommande(commande);
+
+        CommandeLigne saved = commandeLigneRepository.save(ligne);
+        return commandeLigneMapper.toDTO(saved);
     }
 
-    //delete
+    // DELETE
     public void deleteCommandeLigne(int id){
-        commandeRepository.deleteById(id);
+        commandeLigneRepository.deleteById(id);
     }
 }
+
