@@ -8,9 +8,6 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface MouvementStockMapper {
 
-    @Mapping(source = "ligneCommande.id", target = "ligneCommandeId")
     MouvementStockDTO toDTO(MouvementStock mouvementStock);
-
-    @Mapping(source = "ligneCommandeId", target = "ligneCommande.id")
     MouvementStock toEntity(MouvementStockDTO mouvementStockDTO);
 }
