@@ -22,13 +22,13 @@ public class CommandeLigneController {
     }
 
     //Get by id
-    @GetMapping
+    @GetMapping("/{id}")
     public ResponseEntity<CommandeLigneDTO> getCommandeLigneById(@PathVariable int id){
         return ResponseEntity.ok(commandeLigneService.getById(id));
     }
 
     //Post
-    @PostMapping("/{id}")
+    @PostMapping
     public ResponseEntity<CommandeLigneDTO> createCommandeLigne(@RequestBody CommandeLigneDTO commandeLigneDTO){
         CommandeLigneDTO commandeLigneDTOCreated=commandeLigneService.createCommandeLigne(commandeLigneDTO);
         return ResponseEntity.ok(commandeLigneDTOCreated);
