@@ -1,0 +1,106 @@
+{
+	"info": {
+		"_postman_id": "5242de8e-ee2d-449e-a8a0-2f117e71800a",
+		"name": "TricolApprovisionnement-Produit",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49299364",
+		"_collection_link": "https://asmaeelhamzaoui77-5958839.postman.co/workspace/ASMAE-EL-HAMZAOUI's-Workspace~56ac6905-c747-4ef0-8827-4e60e2787b74/collection/49299364-5242de8e-ee2d-449e-a8a0-2f117e71800a?action=share&source=collection_link&creator=49299364"
+	},
+	"item": [
+		{
+			"name": "GetAll",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "GetById",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "AjouterProduit",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/produits",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produits"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ModifierProduit",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nom\": \"Chemise\",\r\n  \"description\": \"Chemise résistante pour employés\",\r\n  \"prixUnitaire\": 150.5,\r\n  \"categorie\": \"Vêtements\",\r\n  \"stockActuel\": 500\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/produits/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produits",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteProduit",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nom\": \"Chemise\",\r\n  \"description\": \"Chemise résistante pour employés\",\r\n  \"prixUnitaire\": 150.5,\r\n  \"categorie\": \"Vêtements\",\r\n  \"stockActuel\": 500\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/produits/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"produits",
+						"7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

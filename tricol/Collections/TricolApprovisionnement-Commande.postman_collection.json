@@ -1,0 +1,123 @@
+{
+	"info": {
+		"_postman_id": "2d5df229-8e64-4e25-873e-e909d5f6e24a",
+		"name": "TricolApprovisionnement-Commande",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "49299364",
+		"_collection_link": "https://asmaeelhamzaoui77-5958839.postman.co/workspace/ASMAE-EL-HAMZAOUI's-Workspace~56ac6905-c747-4ef0-8827-4e60e2787b74/collection/49299364-2d5df229-8e64-4e25-873e-e909d5f6e24a?action=share&source=collection_link&creator=49299364"
+	},
+	"item": [
+		{
+			"name": "GetAll",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nom\": \"Chemise\",\r\n  \"description\": \"Chemise résistante pour employés\",\r\n  \"prixUnitaire\": 150.5,\r\n  \"categorie\": \"Vêtements\",\r\n  \"stockActuel\": 500\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/commandes?page=0&nbrEelement=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"commandes"
+					],
+					"query": [
+						{
+							"key": "page",
+							"value": "0"
+						},
+						{
+							"key": "nbrEelement",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetById",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "AjouterCommande",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"statut\": \"EN_ATTENTE\",\r\n  \"fournisseurId\": 1,\r\n  \"dateCommande\": \"2025-11-07T18:15:00\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/commandes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"commandes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ModifierCommande",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"statut\": \"EN_ATTENTE\",\r\n  \"fournisseurId\": 4,\r\n  \"dateCommande\": \"2025-11-07T18:15:00\"\r\n}\r\n\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/commandes/11",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"commandes",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteCommande",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
