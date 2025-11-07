@@ -1,6 +1,7 @@
 package com.tapprovisionnement.tricol.service;
 
 import com.tapprovisionnement.tricol.dto.CommandeDTO;
+import com.tapprovisionnement.tricol.dto.MouvementStockDTO;
 import com.tapprovisionnement.tricol.enums.StatutCommande;
 import com.tapprovisionnement.tricol.mapper.CommandeMapper;
 import com.tapprovisionnement.tricol.model.Commande;
@@ -26,6 +27,8 @@ public class CommandeService {
     private final FournisseurRepository fournisseurRepository;
     private final CommandeLigneRepository commandeLigneRepository;
     private final ProduitRepository produitRepository;
+    private final MouvementStockService mouvementStockService;
+
 
     //getAll commandes with pagination sorting by id ascending
     public Page<CommandeDTO> getAllCommandes(int page,int nbrElement){
@@ -99,5 +102,14 @@ public class CommandeService {
             produit.setStockActuel(stockRestant);
             produitRepository.save(produit);
         }
+
+        // --- Création automatique du mouvement de stock de type ENTREE ---
+        MouvementStockDTO mouvementDTO = MouvementStockDTO.builder()
+                .commandeId(commande.getId())
+                .typeMouvement(com.tapprovisionnement.tricol.enums.TypeMouvement.ENTREE)
+                .build();
+
+        mouvementStockService.create(mouvementDTO);
     }
+
 }
