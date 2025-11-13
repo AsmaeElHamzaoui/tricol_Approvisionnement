@@ -31,14 +31,14 @@ Les APIs doivent permettre :
 
 ## 3. Technologies utilisées
 
-| Technologie | Utilisation |
-|-------------|-------------|
-| Spring Boot | Framework principal backend |
-| Spring Data JPA | Accès DB + Repository |
-| MapStruct | Mapping DTO -> Entity |
-| Liquibase | Migration de DB automatique |
+| Technologie | Utilisation                   |
+|-------------|-------------------------------|
+| Spring Boot | Framework principal backend   |
+| Spring Data JPA | Accès DB + Repository         |
+| MapStruct | Mapping DTO -> Entity         |
+| Liquibase | Migration de DB automatique   |
 | Swagger / OpenAPI | Documentation API automatique |
-| Jakarta Validation | Validation des DTO |
+| Jakarta Validation | Validation des DTO            |
 
 ---
 
