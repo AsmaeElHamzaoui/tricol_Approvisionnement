@@ -51,7 +51,7 @@ public class ProduitService {
 
             existing.setCoutMoyenUnitaire(newCump);
             existing.setStockActuel(existing.getStockActuel() + produitDTO.getStockActuel());
-            existing.setPrixUnitaire(produitDTO.getPrixUnitaire()); // tu peux stocker le dernier
+            existing.setPrixUnitaire(produitDTO.getPrixUnitaire()); // on peux stocker le dernier
 
             produit = existing;
 
