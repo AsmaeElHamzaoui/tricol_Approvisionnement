@@ -95,4 +95,13 @@ public class MouvementStockService {
     public void delete(int id){
         mouvementStockRepository.deleteById(id);
     }
+
+    //Somme des mouvements
+    public int sommeMouvement(){
+        int somme=mouvementStockRepository.findAll()
+                .stream()
+                .mapToInt(MouvementStock::getQuantite)
+                .sum();
+        return somme;
+    }
 }

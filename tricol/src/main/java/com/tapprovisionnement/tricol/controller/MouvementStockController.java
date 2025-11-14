@@ -40,4 +40,10 @@ public class MouvementStockController {
         mouvementStockService.delete(id);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("/somme")
+    public ResponseEntity<Integer> somme(@RequestParam(defaultValue = "0") int page,
+                                                          @RequestParam(defaultValue = "10") int size){
+        return ResponseEntity.ok(mouvementStockService.sommeMouvement());
+    }
 }
