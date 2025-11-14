@@ -18,6 +18,15 @@ Développer une **API REST Spring Boot complète** capable de gérer :
 - les Mouvements de Stock
 - la Valorisation du stock (FIFO / CUMP)
 
+Création des tests unitaires et tests d'intégrations pour les fonctionnalités du système
+
+- Gestion des fournisseurs : création, modification, suppression, consultation.
+- Gestion des produits : création et suivi.
+- Cycle de vie des commandes fournisseurs : création, validation, suivi des stocks.
+- Mouvements de stock : entrées, sorties et valorisation automatique.
+- Vérification des endpoints REST principaux via MockMvc.
+
+
 Les APIs doivent permettre :
 
 | Domaine | Actions possibles |
@@ -31,14 +40,16 @@ Les APIs doivent permettre :
 
 ## 3. Technologies utilisées
 
-| Technologie | Utilisation                   |
-|-------------|-------------------------------|
-| Spring Boot | Framework principal backend   |
-| Spring Data JPA | Accès DB + Repository         |
-| MapStruct | Mapping DTO -> Entity         |
-| Liquibase | Migration de DB automatique   |
-| Swagger / OpenAPI | Documentation API automatique |
-| Jakarta Validation | Validation des DTO            |
+| Technologie        | Utilisation                        |
+|--------------------|------------------------------------|
+| Spring Boot        | Framework principal backend        |
+| Spring Data JPA    | Accès DB + Repository              |
+| MapStruct          | Mapping DTO -> Entity              |
+| Liquibase          | Migration de DB automatique        |
+| Swagger / OpenAPI  | Documentation API automatique      |
+| Jakarta Validation | Validation des DTO                 |
+| Junit 5 & Mockito MockMvc | Test unitaire & Test d'intégration |
+
 
 ---
 
@@ -95,7 +106,26 @@ spring.liquibase.enabled=true
 #### 3) Lancer le projet
 
 ```bash
+
 mvn spring-boot:run
+```
+
+#### 3) Commande pour tester les tests
+
+```bash
+
+mvn clean test
+```
+ou 
+```bash
+
+mvn  test
+```
+#### 3) Commande pour la générer le rapport jacoco:
+```bash
+
+mvn clean verify
+
 ```
 
 ---
@@ -138,8 +168,8 @@ Méthode par défaut : `CUMP`
 ![img.png](img.png)
 ## 10. Structure du projet
 ![img_1.png](img_1.png)
-
-
+## 10. Structure du projet (tests inclus)
+![img_2.png](img_2.png)
 
 
 
